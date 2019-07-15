@@ -14,6 +14,9 @@
 		84687D0422DB9B39000C15CB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84687D0322DB9B39000C15CB /* Assets.xcassets */; };
 		84687D0722DB9B39000C15CB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84687D0522DB9B39000C15CB /* LaunchScreen.storyboard */; };
 		84687D1022DB9C92000C15CB /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84687D0F22DB9C92000C15CB /* MapKit.framework */; };
+		84687D1422DC8E06000C15CB /* CoreDataHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84687D1322DC8E06000C15CB /* CoreDataHelper.swift */; };
+		84687D1822DCD140000C15CB /* PokemonCellTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84687D1722DCD140000C15CB /* PokemonCellTableViewCell.swift */; };
+		84687D1A22DCD834000C15CB /* PokemoTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84687D1922DCD834000C15CB /* PokemoTableViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +29,9 @@
 		84687D0622DB9B39000C15CB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		84687D0822DB9B39000C15CB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		84687D0F22DB9C92000C15CB /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		84687D1322DC8E06000C15CB /* CoreDataHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataHelper.swift; sourceTree = "<group>"; };
+		84687D1722DCD140000C15CB /* PokemonCellTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonCellTableViewCell.swift; sourceTree = "<group>"; };
+		84687D1922DCD834000C15CB /* PokemoTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemoTableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,6 +73,9 @@
 				84687D0522DB9B39000C15CB /* LaunchScreen.storyboard */,
 				84687D0822DB9B39000C15CB /* Info.plist */,
 				84687D0022DB9B36000C15CB /* PokemonGo.xcdatamodeld */,
+				84687D1322DC8E06000C15CB /* CoreDataHelper.swift */,
+				84687D1722DCD140000C15CB /* PokemonCellTableViewCell.swift */,
+				84687D1922DCD834000C15CB /* PokemoTableViewController.swift */,
 			);
 			path = PokemonGo;
 			sourceTree = "<group>";
@@ -150,7 +159,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84687D1422DC8E06000C15CB /* CoreDataHelper.swift in Sources */,
 				84687CFC22DB9B36000C15CB /* ViewController.swift in Sources */,
+				84687D1A22DCD834000C15CB /* PokemoTableViewController.swift in Sources */,
+				84687D1822DCD140000C15CB /* PokemonCellTableViewCell.swift in Sources */,
 				84687CFA22DB9B36000C15CB /* AppDelegate.swift in Sources */,
 				84687D0222DB9B36000C15CB /* PokemonGo.xcdatamodeld in Sources */,
 			);
