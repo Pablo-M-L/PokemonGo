@@ -24,6 +24,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     
     var pokemons: [Pokemon] = []
     
+    var sumaTotalFrequency = 0
+    var hasMovedToAntherView = false
+    var timer: Timer!
+    
     @IBAction func updateUserLocation(_ sender: UIButton) {
         //limita la region a mostrar.
         if let coordinate = self.manager.location?.coordinate{
@@ -38,6 +42,12 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         
         pokemons = getAllThePokemon()
         
+        
+        //suma todas las frequency
+        for p in self.pokemons{
+            sumaTotalFrequency += Int(p.frequency)
+        }
+        
         self.manager.delegate = self
         
         if CLLocationManager.authorizationStatus() == .authorizedWhenInUse{
@@ -46,6 +56,19 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
             self.manager.requestWhenInUseAuthorization()
 
         }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool){
+        self.timer.invalidate()
+        self.hasMovedToAntherView = true
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        if self.hasMovedToAntherView{
+            self.starTimer()
+
+        }
+        
     }
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
@@ -62,15 +85,34 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         self.mapView.showsUserLocation = true
         self.manager.startUpdatingLocation() //actualiza la posicion si hay movimiento, y llama a locationManager.
     
+        self.starTimer()
+        
     
-        Timer.scheduledTimer(withTimeInterval: pokemonSpawnTimer, repeats: true, block: { (timer) in
+        }
+    }
+
+    func starTimer(){
+        self.timer = Timer.scheduledTimer(withTimeInterval: pokemonSpawnTimer, repeats: true, block: { (timer) in
             if let coordinate = self.manager.location?.coordinate{ //obtiene las coordenadas del usuario.
                 
                 //let annotation = MKPointAnnotation()
                 //annotation.coordinate = coordinate
                 
-                let randomPos = Int(arc4random_uniform(UInt32(self.pokemons.count)))
-                let pokemonRandom = self.pokemons[randomPos]
+                let randomNumber = Int(arc4random_uniform(UInt32(self.sumaTotalFrequency)))
+                
+                var pokemonFrequencyAcumuladas = 0
+                var pokemonRandom: Pokemon = self.pokemons[0]
+                for p in self.pokemons{
+                    pokemonRandom = p
+                    pokemonFrequencyAcumuladas += Int(p.frequency)
+                    if pokemonFrequencyAcumuladas >= randomNumber{
+                        break
+                    }
+                    
+                }
+                
+                //let randomPos = Int(arc4random_uniform(UInt32(self.pokemons.count)))
+                //let pokemonRandom = self.pokemons[randomPos]
                 
                 let annotation = PokemonAnnotation(coordinate: coordinate, pokemon: pokemonRandom)
                 annotation.coordinate.latitude += (Double(arc4random_uniform(1000)) - 500.0) / 300000.0
@@ -80,10 +122,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
             
             
         })
-    
-        }
     }
-
     
     
     //MARK: Core location manager delegate.
@@ -171,5 +210,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         
     }
 
+
 }
+
 

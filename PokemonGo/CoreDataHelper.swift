@@ -13,27 +13,27 @@ import CoreData
 func createAllThePokemon(){
     
     //crear pokemons
-    createPokemon(name: "Abra", imageNamed: "abra")
-    createPokemon(name: "Bellsprout", imageNamed: "bellsprout")
-    createPokemon(name: "Caterpie", imageNamed: "caterpie")
-    createPokemon(name: "Bullbasaur", imageNamed: "bullbasaur")
-    createPokemon(name: "Jigglypuff", imageNamed: "jigglypuff")
-    createPokemon(name: "Meowth", imageNamed: "meowth")
-    createPokemon(name: "Pikachu-2", imageNamed: "pikachu-2")
+    createPokemon(name: "Abra", imageNamed: "abra",frequency: 80)
+    createPokemon(name: "Bellsprout", imageNamed: "bellsprout",frequency: 70)
+    createPokemon(name: "Caterpie", imageNamed: "caterpie", frequency: 100)
+    createPokemon(name: "Bullbasaur", imageNamed: "bullbasaur",frequency: 30)
+    createPokemon(name: "Jigglypuff", imageNamed: "jigglypuff",frequency: 50)
+    createPokemon(name: "Meowth", imageNamed: "meowth",frequency: 50)
+    createPokemon(name: "Pikachu-2", imageNamed: "pikachu-2",frequency: 20)
     
     //guardar pokemons creados
      (UIApplication.shared.delegate as! AppDelegate).saveContext()
     
 }
 
-func createPokemon(name: String, imageNamed: String){
+func createPokemon(name: String, imageNamed: String, frequency: Int){
     //devuelve el delegado del proyecto. y en el, al persistentContainer.
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     let pokemon = Pokemon(context: context)
     pokemon.name = name
     pokemon.imageFileName = imageNamed
-    
+    pokemon.frequency = Int16(frequency)
 }
 
 func getAllThePokemon()->[Pokemon]{
