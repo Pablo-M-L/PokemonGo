@@ -79,11 +79,7 @@ func getAllUncaughtPokemon()->[Pokemon]{
 
     do{
         let pokemons = try context.fetch(fetchRequest) as [Pokemon]
-        
-        if pokemons.count == 0{
-            createAllThePokemon()
-            return getAllUncaughtPokemon()
-        }
+    
         return pokemons
     }catch{
         print("error coredata uncaught")

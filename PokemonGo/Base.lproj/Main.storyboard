@@ -33,10 +33,10 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gtA-fQ-3FY">
-                                <rect key="frame" x="181" y="814" width="53" height="48"/>
+                                <rect key="frame" x="172" y="792" width="70" height="70"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="48" id="MiV-0f-47P"/>
-                                    <constraint firstAttribute="width" constant="48" id="utg-4P-qeW"/>
+                                    <constraint firstAttribute="height" constant="70" id="fmW-Mt-3AX"/>
+                                    <constraint firstAttribute="width" constant="70" id="iLz-rx-aUN"/>
                                 </constraints>
                                 <state key="normal" title="Button" image="pokeball"/>
                                 <connections>
@@ -46,13 +46,12 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="gtA-fQ-3FY" firstAttribute="centerX" secondItem="7Tt-ud-job" secondAttribute="centerX" id="AgY-Lv-cZR"/>
                             <constraint firstItem="7Tt-ud-job" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="GaM-0m-GHd"/>
+                            <constraint firstItem="gtA-fQ-3FY" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="M2r-7m-EJG"/>
                             <constraint firstItem="7Tt-ud-job" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="Mie-z8-cto"/>
                             <constraint firstItem="oQE-WX-re1" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="40" id="PSh-Ia-Mqq"/>
-                            <constraint firstItem="gtA-fQ-3FY" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="V8e-72-iru"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="gtA-fQ-3FY" secondAttribute="trailing" constant="180" id="VAs-n6-7Cn"/>
                             <constraint firstAttribute="bottom" secondItem="7Tt-ud-job" secondAttribute="bottom" id="gVZ-55-eva"/>
-                            <constraint firstItem="gtA-fQ-3FY" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="181" id="taw-Kb-P3Z"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="oQE-WX-re1" secondAttribute="trailing" constant="40" id="tb8-Xl-oyX"/>
                             <constraint firstItem="7Tt-ud-job" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="y8l-5u-Qu7"/>
                         </constraints>

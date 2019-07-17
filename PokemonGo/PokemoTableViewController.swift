@@ -21,6 +21,7 @@ class PokemoTableViewController: UIViewController,UITableViewDelegate, UITableVi
         self.tableView.delegate = self
         self.tableView.dataSource = self
         
+        caughtPokemons = getAllCaughtPokemon()
         uncaughtPokemons = getAllUncaughtPokemon()
         print(caughtPokemons.count)
         print(uncaughtPokemons.count)    }
@@ -45,9 +46,12 @@ class PokemoTableViewController: UIViewController,UITableViewDelegate, UITableVi
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0{
+            print("capturados - \(self.caughtPokemons.count)")
             return self.caughtPokemons.count
+            
         }
         else{
+            print(" sin capturados - \(self.uncaughtPokemons.count)")
             return self.uncaughtPokemons.count
         }
     }
@@ -55,7 +59,6 @@ class PokemoTableViewController: UIViewController,UITableViewDelegate, UITableVi
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "PokemonCell", for: indexPath) as! PokemonCellTableViewCell
-        
         var pokemon: Pokemon
         if indexPath.section == 0{
             pokemon = self.caughtPokemons[indexPath.row]

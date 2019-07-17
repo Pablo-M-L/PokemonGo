@@ -14,10 +14,12 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     
     @IBOutlet weak var mapView: MKMapView!
     var manager = CLLocationManager()
+    var hasStartedTheMap = false
     
     var updateCount = 0
-    let mapDistance: CLLocationDistance = 200
-    
+    let mapDistance: CLLocationDistance = 150
+    let captureDistance: CLLocationDistance = 100
+
     var pokemonSpawnTimer: TimeInterval = 5
     
     var pokemons: [Pokemon] = []
@@ -38,41 +40,48 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         
         self.manager.delegate = self
         
-
-        
         if CLLocationManager.authorizationStatus() == .authorizedWhenInUse{
-            self.mapView.delegate = self
-            self.mapView.showsUserLocation = true
-            self.manager.startUpdatingLocation() //actualiza la posicion si hay movimiento, y llama a locationManager.
-            
-
-            Timer.scheduledTimer(withTimeInterval: pokemonSpawnTimer, repeats: true) { (timer) in
-                print("temp")
-                if let coordinate = self.manager.location?.coordinate{ //obtiene las coordenadas del usuario.
-                    
-                    let annotation = MKPointAnnotation()
-                    annotation.coordinate = coordinate
-                    annotation.coordinate.latitude += (Double(arc4random_uniform(1000)) - 500.0) / 300000.0
-                    annotation.coordinate.longitude += (Double(arc4random_uniform(1000)) - 500.0) / 300000.0
-                    self.mapView.addAnnotation(annotation)
-                    print("crear anotacion  -\(annotation.coordinate.latitude) -- \(annotation.coordinate.longitude)")
-                }
-                
-                
-            }
-            
-            
-            
-            
+            setUpMap()
         }else{
             self.manager.requestWhenInUseAuthorization()
 
         }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        if CLLocationManager.authorizationStatus() == .authorizedWhenInUse{
+            setUpMap()
+        }
+    }
+    
+    func setUpMap(){
+    if !hasStartedTheMap{
         
-        
-       
-
-
+        self.hasStartedTheMap = true
+        self.mapView.delegate = self
+        self.mapView.showsUserLocation = true
+        self.manager.startUpdatingLocation() //actualiza la posicion si hay movimiento, y llama a locationManager.
+    
+    
+        Timer.scheduledTimer(withTimeInterval: pokemonSpawnTimer, repeats: true, block: { (timer) in
+            if let coordinate = self.manager.location?.coordinate{ //obtiene las coordenadas del usuario.
+                
+                //let annotation = MKPointAnnotation()
+                //annotation.coordinate = coordinate
+                
+                let randomPos = Int(arc4random_uniform(UInt32(self.pokemons.count)))
+                let pokemonRandom = self.pokemons[randomPos]
+                
+                let annotation = PokemonAnnotation(coordinate: coordinate, pokemon: pokemonRandom)
+                annotation.coordinate.latitude += (Double(arc4random_uniform(1000)) - 500.0) / 300000.0
+                annotation.coordinate.longitude += (Double(arc4random_uniform(1000)) - 500.0) / 300000.0
+                self.mapView.addAnnotation(annotation)
+            }
+            
+            
+        })
+    
+        }
     }
 
     
@@ -107,7 +116,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
             annotationView.image = UIImage(named: "player") //para que no ponga un pokemmon en la localizacion del usuario.
         }
         else{
-            annotationView.image = UIImage(named: "abra")
+            let pokemonRandomPasadoPorParametro = (annotation as! PokemonAnnotation).pokemon
+            annotationView.image = UIImage(named: pokemonRandomPasadoPorParametro.imageFileName!)
         }
         
         
@@ -116,6 +126,49 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         reducedFrame.size.width = 40
         annotationView.frame = reducedFrame
         return annotationView
+    }
+    
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        //una vez esta seleccionado no deja volver a seleccionarlo, por eso le mandamos deseleccionarlo para poder volver a seleccionarlo.
+        mapView.deselectAnnotation(view.annotation, animated: true)
+        
+        //evitamos que se pueda selecionar el player.
+        if view.annotation is MKUserLocation{
+            return
+            
+        }
+        
+        //crea una region de mapa con las coordenadas de la anotacion (que es el pokemon) como centro y el tamaño indicado.
+        let region = MKCoordinateRegion(center: view.annotation!.coordinate, latitudinalMeters: captureDistance, longitudinalMeters: captureDistance)
+        //pasamos esa region al mapView
+        self.mapView.setRegion(region, animated: true)
+        
+        
+        //obtiene las coordenadas del dispositivo y comprueba si está dentro de la region alrededor del pokemon.
+        if let coordinate = self.manager.location?.coordinate{
+            let mkmapPoint = MKMapPoint(coordinate)
+            let mkRect: MKMapRect = self.mapView.visibleMapRect
+            let regionRectPokemon = mkRect.contains(mkmapPoint)
+            
+            if regionRectPokemon{
+                let vc = BattleViewController()
+                vc.pokemonBVC = (view.annotation! as! PokemonAnnotation).pokemon
+                self.mapView.removeAnnotation(view.annotation!)
+                self.present(vc,animated: true, completion: nil)
+            }
+            else{
+                let pokemos = (view.annotation! as! PokemonAnnotation).pokemon
+                let alertController = UIAlertController(title: "estas demasiado lejos!!!", message: "acercate al \(pokemos.name) para capturarlo", preferredStyle: .alert)
+                let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+                alertController.addAction(okAction)
+                self.present(alertController, animated: true, completion: nil)
+                
+            }
+        }
+
+        
+        
+        
     }
 
 }
